@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyAssist — Помощь студентам с учёбой онлайн</title>
+  <meta name="description" content="StudyAssist — помощь студентам с учебными работами онлайн. Рефераты, курсовые, дипломы, лабораторные, презентации, отчёты по практике. Ответ за 30 минут. Оплата после согласования." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0D0F14;
+      --surface: #161A22;
+      --accent: #4F8EF7;
+      --accent-2: #7B5CF0;
+      --text: #F0F2F7;
+      --muted: #8A92A6;
+      --border: #252A36;
+      --ok: #2ECC9A;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    .container { width: min(1180px, 92vw); margin: 0 auto; }
+    h1,h2,h3 { font-family: Syne, Inter, sans-serif; line-height: 1.1; margin: 0; }
+    h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 14px; }
+    p { margin: 0; color: var(--muted); }
+
+    .header {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      background: rgba(13,15,20,0.75);
+    }
+    .header-inner { display:flex; align-items:center; justify-content:space-between; min-height: 74px; }
+    .logo { font-family: Syne; font-size: 30px; color: #fff; text-decoration:none; font-weight: 800; }
+    .logo::after { content: '.'; color: var(--accent); }
+    .nav { display:flex; gap: 24px; }
+    .nav a { color: var(--muted); text-decoration:none; font-weight: 500; }
+    .nav a:hover { color: var(--text); }
+    .actions { display:flex; gap: 10px; }
+    .btn {
+      border: 1px solid var(--border); color: var(--text);
+      border-radius: 12px; padding: 12px 18px; text-decoration:none; font-weight: 600;
+      display: inline-flex; align-items:center; justify-content:center; cursor:pointer;
+      transition: .25s ease;
+      background: transparent;
+    }
+    .btn-primary {
+      border: none;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
+      background-size: 200% 100%;
+      color: #fff;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary:hover { background-position: 100% 0; box-shadow: 0 10px 35px rgba(79,142,247,.35); }
+
+    .burger { display:none; width:42px; height:42px; border-radius:12px; border:1px solid var(--border); background:transparent; color:#fff; }
+    .mobile-nav { display:none; padding-bottom: 14px; }
+    .mobile-nav a { display:block; padding: 10px 0; color: var(--muted); text-decoration:none; }
+
+    .hero {
+      position: relative; padding: 80px 0 54px;
+      overflow: hidden;
+      background-image: linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+    .hero::before {
+      content: ''; position:absolute; inset: -15% -10% auto auto;
+      width: 580px; aspect-ratio: 1/1;
+      background: radial-gradient(circle, rgba(79,142,247,.35), transparent 65%);
+      filter: blur(28px); pointer-events:none;
+    }
+    .hero-grid { display:grid; grid-template-columns: 1.1fr .9fr; gap: 34px; align-items: center; }
+    .hero-badge {
+      display:inline-flex; border: 1px solid #2b3345; border-radius:999px;
+      padding:8px 14px; color:#b4bfd5; margin-bottom: 18px; font-size:14px;
+      background: rgba(79,142,247,.08);
+    }
+    .hero h1 { font-size: clamp(36px, 7vw, 72px); margin-bottom: 14px; }
+    .hero-copy { max-width: 560px; font-size: 18px; }
+    .hero-cta { display:flex; gap: 12px; margin: 24px 0 16px; flex-wrap: wrap; }
+    .hero-facts { display:flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color:#b9c5de; }
+    .hero-facts span { display:flex; align-items:center; gap:8px; }
+    .dot-ok { color: var(--ok); font-weight: 700; }
+
+    .mockup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display:grid; gap: 12px; }
+    .card { background: #11151c; border:1px solid var(--border); border-radius: 14px; padding: 14px; }
+    .row { display:flex; align-items:center; justify-content: space-between; gap: 10px; }
+    .avatar { width:36px; height:36px; border-radius:50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display:grid; place-items:center; font-weight:700; }
+    .status { color: var(--ok); font-size: 13px; }
+    .progress { height:8px; background:#1f2530; border-radius:999px; margin-top: 10px; overflow:hidden; }
+    .progress > i { display:block; height:100%; width:70%; background: linear-gradient(90deg, var(--ok), #5de0b3); border-radius:inherit; }
+    .ok-badge { display:inline-block; background: rgba(46,204,154,.16); color: #8af3c8; border:1px solid rgba(46,204,154,.35); border-radius: 999px; padding:7px 11px; font-size: 13px; }
+
+    .section { padding: 72px 0; }
+    .stats { display:grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .stat { border:1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 22px; }
+    .stat-num { font-family: Syne; font-size: 44px; }
+
+    .steps { position: relative; display:grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; }
+    .steps svg { position:absolute; inset: 56px 0 auto; width:100%; height: 34px; pointer-events:none; }
+    .steps path { stroke:#3a4660; stroke-width:2; fill:none; stroke-dasharray:1000; stroke-dashoffset:1000; transition:1.2s ease; }
+    .steps.draw path { stroke-dashoffset:0; }
+    .step { background: var(--surface); border:1px solid var(--border); border-radius: var(--radius); padding: 22px; position: relative; z-index: 1; opacity: 0; transform: translateY(14px); transition:.45s ease; }
+    .step.visible { opacity:1; transform: translateY(0); }
+
+    .services-grid { margin-top: 20px; display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .service {
+      background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
+      padding: 18px; display:flex; flex-direction:column; gap: 10px;
+      transition: .24s ease;
+    }
+    .service:hover { transform: translateY(-6px); border-color: rgba(79,142,247,.5); box-shadow: 0 16px 40px rgba(79,142,247,.18); }
+    .service .icon { font-size: 20px; }
+    .service h3 { font-size: 22px; }
+    .service .price { font-weight: 700; color:#fff; }
+    .chip { display:inline-flex; align-self: flex-start; border-radius:999px; font-size:12px; padding:4px 10px; border:1px solid #3a4660; color:#b4bfd5; }
+    .ghost-card { background: #1b2130; }
+
+    .prices-wrap { display:grid; grid-template-columns: 1.3fr .7fr; gap: 16px; margin-top: 18px; }
+    .price-table { border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+    .row-price { display:grid; grid-template-columns: 1.2fr .8fr auto; align-items:center; gap: 10px; padding: 14px 16px; border-bottom:1px solid var(--border); background: #161A22; }
+    .row-price:nth-child(even) { background: #0D0F14; }
+    .row-price:hover { background:#1c2230; }
+    .row-price.big { border-left: 3px solid var(--accent); }
+    .aside { display:grid; gap: 14px; }
+    .aside-card { border:1px solid var(--border); border-radius: var(--radius); padding: 18px; background: var(--surface); }
+
+    .form-wrap { margin-top: 18px; border:1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 20px; }
+    .form-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .input, select, textarea {
+      width:100%; background:#0f131a; border:1px solid var(--border); border-radius: 12px;
+      color: var(--text); padding: 13px 14px; font: inherit;
+    }
+    textarea { min-height: 140px; resize: vertical; }
+    .full { grid-column: 1 / -1; }
+    .hint { font-size: 13px; margin-top: 10px; }
+
+    .reviews { margin-top: 18px; display:grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+    .review { border:1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 18px; }
+    .review strong { color: #fff; display:block; margin-bottom: 8px; }
+
+    .faq { margin-top: 12px; border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+    .faq-item { border-bottom:1px solid var(--border); background: var(--surface); }
+    .faq-btn { width:100%; padding: 16px; background:none; border:0; color:#fff; text-align:left; font: inherit; cursor:pointer; font-weight:600; }
+    .faq-content { max-height:0; overflow:hidden; transition: .28s ease; padding: 0 16px; color: var(--muted); }
+    .faq-item.open .faq-content { max-height: 160px; padding: 0 16px 16px; }
+
+    footer { border-top:1px solid var(--border); margin-top: 72px; padding: 34px 0 28px; }
+    .foot-grid { display:grid; grid-template-columns: 1.2fr .9fr .9fr; gap: 16px; }
+    .foot-col a { display:block; color: var(--muted); text-decoration:none; margin: 6px 0; }
+    .foot-col a:hover { color: var(--text); }
+    .copyright { margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+
+    [data-reveal] { opacity: 0; transform: translateY(16px); transition: .6s ease; }
+    [data-reveal].visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .prices-wrap { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .steps svg { display:none; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav, .actions { display:none; }
+      .burger { display:block; }
+      .mobile-nav.show { display:block; }
+      .services-grid, .reviews, .form-grid, .foot-grid { grid-template-columns: 1fr; }
+      .row-price { grid-template-columns: 1fr; }
+      .hero { padding-top: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a class="logo" href="#">StudyAssist</a>
+      <nav class="nav">
+        <a href="#services">Услуги</a>
+        <a href="#how">Как это работает</a>
+        <a href="#prices">Цены</a>
+        <a href="#reviews">Отзывы</a>
+      </nav>
+      <div class="actions">
+        <a class="btn" href="#">Войти</a>
+        <a class="btn btn-primary" href="#request">Оставить заявку</a>
+      </div>
+      <button class="burger" id="burger">☰</button>
+    </div>
+    <div class="container mobile-nav" id="mobileNav">
+      <a href="#services">Услуги</a>
+      <a href="#how">Как это работает</a>
+      <a href="#prices">Цены</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#request">Оставить заявку</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge" data-reveal>✦ Более 1000 студентов уже сдали то, что откладывали</div>
+          <h1 data-reveal>Дедлайн завтра,<br>а ты ещё не начал?</h1>
+          <p class="hero-copy" data-reveal>Разберём тему, подберём материалы, поможем структурировать всё по уму. Пока другие часами ищут ответы — ты уже получаешь результат.</p>
+          <div class="hero-cta" data-reveal>
+            <a class="btn btn-primary" href="#request">Получить помощь сейчас</a>
+            <a class="btn" href="#prices">Узнать стоимость</a>
+          </div>
+          <div class="hero-facts" data-reveal>
+            <span><b class="dot-ok">✓</b> Ответ за 30 минут</span>
+            <span><b class="dot-ok">✓</b> Оплата после согласования</span>
+            <span><b class="dot-ok">✓</b> Конфиденциально</span>
+          </div>
+        </div>
+        <aside class="mockup" data-reveal>
+          <div class="card row">
+            <div class="row" style="justify-content:flex-start"><div class="avatar">ДК</div><div><b style="display:block;color:#fff">Дмитрий, Юриспруденция</b><small style="color:var(--muted)">Запрос активен</small></div></div>
+            <span class="status">● Работа в процессе</span>
+          </div>
+          <div class="card">
+            <b style="color:#fff">Тип: Курсовая работа · Гражданское право</b>
+            <div class="progress"><i></i></div>
+            <small style="color:var(--muted)">Готовность: 70%</small>
+          </div>
+          <div class="card"><span class="ok-badge">✓ Сдано на отлично</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container stats">
+        <article class="stat" data-reveal><div class="stat-num" data-counter="1000">0</div><p>студентов получили помощь</p></article>
+        <article class="stat" data-reveal><div class="stat-num" data-counter="30">0</div><p>мин среднее время первого ответа</p></article>
+        <article class="stat" data-reveal><div class="stat-num" data-counter="49">0</div><p>4.9 / 5 средняя оценка специалистов</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container">
+        <h2>Три шага — и дедлайн больше не страшен</h2>
+        <div class="steps" id="steps">
+          <svg viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M2 5 C 20 1, 30 9, 50 5 S 80 1, 98 5"/></svg>
+          <article class="step" data-step><h3>1. Расскажи, что случилось</h3><p>Напиши, какой предмет, что именно не идёт и когда нужно сдать. Чем точнее опишешь — тем быстрее поможем. Прикрепи файлы, если есть.</p></article>
+          <article class="step" data-step><h3>2. Получи план и цену за 30 минут</h3><p>Выходим на связь, разбираемся в ситуации и сразу называем стоимость. Без «нужно посчитать и перезвоним через неделю».</p></article>
+          <article class="step" data-step><h3>3. Получи то, что нужно</h3><p>Работаем, пока не станет понятно. Вопросы после — тоже можно. Результат остаётся у тебя навсегда.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <h2>Что конкретно мы делаем</h2>
+        <p>Любой тип работы — от реферата до диплома. Называем цену до начала, не пропадаем в процессе.</p>
+        <div class="services-grid">
+          <article class="service"><span class="icon">📝</span><h3>Реферат и эссе</h3><p>Поможем структурировать, подобрать источники и оформить по требованиям вуза. Быстро и без лишней воды.</p><div class="price">от 1 000 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="icon">📖</span><h3>Курсовая работа</h3><p>Сопровождение от плана до готовой работы: теория, практика, оформление по ГОСТ. Сдаётся в срок.</p><div class="price">от 3 500 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="chip">Серьёзная задача</span><span class="icon">🎓</span><h3>ВКР и дипломная работа</h3><p>Полное сопровождение: структура, литобзор, практическая часть, оформление, подготовка к защите. Финишная прямая — пройдём вместе.</p><div class="price">от 15 000 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="chip">Популярно</span><span class="icon">⚡</span><h3>Лабораторные, контрольные, практические</h3><p>Горит задание — закроем быстро. Любой предмет, оформление по требованиям кафедры.</p><div class="price">от 1 000 ₽/задание</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="icon">🖼️</span><h3>Презентации</h3><p>Аккуратные слайды для защиты или доклада. Без шаблонных тем, перегруженных слайдов и мелкого шрифта.</p><div class="price">от 1 200 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="icon">📋</span><h3>Отчёт по практике</h3><p>Поможем структурировать материал и оформить отчёт по стандартам вуза. Дневник практики — тоже можем.</p><div class="price">от 5 000 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service"><span class="icon">🔬</span><h3>УИР (учебно-исследовательская работа)</h3><p>Постановка задачи, методология, анализ, выводы — в точном соответствии с требованиями кафедры.</p><div class="price">от 7 000 ₽</div><a class="btn btn-primary" href="#request">Оставить заявку</a></article>
+          <article class="service ghost-card"><span class="icon">✨</span><h3>Другой тип работы</h3><p>Не нашёл своё в списке? Напиши — уточним детали и назовём цену. Берёмся за нестандартные задачи.</p><div class="price">по договорённости</div><a class="btn" href="#request">Написать нам</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="prices">
+      <div class="container">
+        <h2>Стоимость — честно и заранее</h2>
+        <p>Называем цену до начала работы. Никаких сюрпризов после.</p>
+        <div class="prices-wrap">
+          <div class="price-table">
+            <div class="row-price"><b>Реферат / эссе</b><span>от 1 000 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>Курсовая работа</b><span>от 3 500 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price big"><b>ВКР / Дипломная работа</b><span>от 15 000 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>Лабораторные / контрольные / практические</b><span>от 1 000 ₽ / задание</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>Презентация</b><span>от 1 200 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>Отчёт по практике</b><span>от 5 000 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>УИР</b><span>от 7 000 ₽</span><a class="btn" href="#request">Заказать</a></div>
+            <div class="row-price"><b>Другой тип работы</b><span>по договорённости</span><a class="btn" href="#request">Заказать</a></div>
+          </div>
+          <aside class="aside">
+            <div class="aside-card"><h3>✓ Быстрый ответ</h3><p>Ответ и расчёт стоимости — в течение 30 минут после заявки.</p></div>
+            <div class="aside-card"><h3>🔒 Оплата после согласования</h3><p>Оплата только после того, как согласовали объём и цену. Никакой предоплаты вслепую.</p></div>
+          </aside>
+        </div>
+        <p class="hint">Точная стоимость зависит от сложности, объёма и срочности. Напиши — и мы сразу назовём цену конкретно для твоей задачи.</p>
+      </div>
+    </section>
+
+    <section class="section" id="request">
+      <div class="container">
+        <h2>Опиши ситуацию — ответим в течение 30 минут</h2>
+        <p>Без регистрации. Без предоплаты. Просто напиши — и мы разберёмся.</p>
+        <form id="leadForm" class="form-wrap" novalidate>
+          <div class="form-grid">
+            <select id="workType" required>
+              <option value="">Тип работы</option><option>Реферат</option><option>Эссе</option><option>Курсовая работа</option><option>ВКР</option><option>Дипломная работа</option><option>Лабораторная / контрольная / практическая</option><option>Презентация</option><option>Отчёт по практике</option><option>УИР</option><option>Другое</option>
+            </select>
+            <input class="input" id="subject" required placeholder="Например: Гражданское право, Высшая математика" />
+            <input class="input" id="date" type="date" required />
+            <input class="input" id="name" required placeholder="Имя" />
+            <textarea id="description" class="full" required placeholder="Расскажи подробнее — что именно нужно, когда дедлайн, что уже есть"></textarea>
+            <input class="input" id="contact" class="full" required placeholder="Телефон или Telegram: +7 999 ... или @username" />
+            <input class="input" id="email" type="email" required placeholder="Email" />
+          </div>
+          <button class="btn btn-primary full" style="margin-top:12px; width:100%; padding: 14px;" type="submit">Отправить заявку</button>
+          <p class="hint">Нажимая кнопку, вы соглашаетесь с <a href="#" style="color:#9ab8ff">Политикой конфиденциальности</a> и <a href="#" style="color:#9ab8ff">Публичной офертой</a></p>
+          <p id="formMsg" class="hint"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <h2>Что говорят студенты</h2>
+        <div class="reviews">
+          <article class="review"><strong>Анна М., Экономика</strong><p>Попросила разобраться с микроэкономикой перед экзаменом — объяснили всё максимально понятно, с живыми примерами. Теперь сдаю намного увереннее.</p><small style="color:#a9b2c4">12.11.2024 · ★★★★★</small></article>
+          <article class="review"><strong>Дмитрий К., Юриспруденция</strong><p>Брал консультации по гражданскому праву перед сессией. Специалист объяснил сложные моменты простым языком, подобрал нужные нормативные акты. Очень доволен.</p><small style="color:#a9b2c4">03.10.2024 · ★★★★★</small></article>
+          <article class="review"><strong>Елена С., Психология</strong><p>Помогли подобрать актуальную литературу для исследования. Сэкономила кучу времени. Структурировали список и дали рекомендации. Отлично!</p><small style="color:#a9b2c4">28.06.2024 · ★★★★★</small></article>
+          <article class="review"><strong>Михаил П., IT</strong><p>Разобрали алгоритмы и структуры данных пошагово. Цена адекватная, отвечают быстро. Рекомендую всем айтишникам.</p><small style="color:#a9b2c4">19.09.2024 · ★★★★★</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Частые вопросы</h2>
+        <div class="faq" id="faq">
+          <div class="faq-item"><button class="faq-btn">Как быстро можно получить помощь?</button><div class="faq-content">В течение 30 минут после заявки мы выходим на связь и согласовываем детали. В большинстве случаев приступаем к работе в тот же день.</div></div>
+          <div class="faq-item"><button class="faq-btn">Какие предметы вы охватываете?</button><div class="faq-content">Практически любые: математика, физика, химия, право, экономика, программирование, психология, медицина, история и другие. Если есть сомнения — просто напишите.</div></div>
+          <div class="faq-item"><button class="faq-btn">Когда нужно платить?</button><div class="faq-content">Только после того, как мы согласовали объём работы и стоимость. Никакой предоплаты «на удачу».</div></div>
+          <div class="faq-item"><button class="faq-btn">Можно ли задать вопросы после консультации?</button><div class="faq-content">Да. Если что-то осталось непонятным — пишите, разберёмся. Не бросаем после оплаты.</div></div>
+          <div class="faq-item"><button class="faq-btn">Это конфиденциально?</button><div class="faq-content">Полностью. Мы не передаём никаких данных о заявках и работах третьим лицам. Ваша информация остаётся только у нас.</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <a class="logo" href="#">StudyAssist</a>
+          <p style="margin-top:12px">Помогаем студентам разобраться — быстро, понятно, без лишних нервов.</p>
+        </div>
+        <div class="foot-col">
+          <h3 style="font-size:22px;margin-bottom:8px">Правовая информация</h3>
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Согласие на обработку данных</a>
+          <a href="#">Правила возврата и оплаты</a>
+          <a href="#">Публичная оферта</a>
+          <a href="#">Контакты</a>
+        </div>
+        <div class="foot-col">
+          <h3 style="font-size:22px;margin-bottom:8px">Контакты</h3>
+          <a href="mailto:support@studyassist.ru">support@studyassist.ru</a>
+          <p>Ежедневно 9:00–23:00 МСК</p>
+        </div>
+      </div>
+      <div class="copyright">© 2025 StudyAssist.ru — Все права защищены · Сервис предназначен для помощи в обучении · 18+</div>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const mobileNav = document.getElementById('mobileNav');
+    burger.addEventListener('click', () => mobileNav.classList.toggle('show'));
+
+    const reveal = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), idx * 120);
+          reveal.unobserve(entry.target);
+        }
+      })
+    }, { threshold: 0.2 });
+    document.querySelectorAll('[data-reveal]').forEach(el => reveal.observe(el));
+
+    const steps = document.getElementById('steps');
+    const stepItems = document.querySelectorAll('[data-step]');
+    const stepObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          steps.classList.add('draw');
+          stepItems.forEach((s, i) => setTimeout(() => s.classList.add('visible'), i * 200));
+          stepObs.disconnect();
+        }
+      })
+    }, { threshold: 0.3 });
+    stepObs.observe(steps);
+
+    const counters = document.querySelectorAll('[data-counter]');
+    const countObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.getAttribute('data-counter');
+        const start = performance.now();
+        const dur = 1300;
+        function frame(t) {
+          const p = Math.min((t - start) / dur, 1);
+          const val = Math.floor(target * (1 - Math.pow(1 - p, 3)));
+          if (target === 49) el.textContent = (val / 10).toFixed(1) + ' / 5';
+          else el.textContent = val + (target === 1000 ? '+' : '');
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+        countObs.unobserve(el);
+      })
+    }, { threshold: 0.45 });
+    counters.forEach(c => countObs.observe(c));
+
+    document.querySelectorAll('.faq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+      })
+    });
+
+    const form = document.getElementById('leadForm');
+    const formMsg = document.getElementById('formMsg');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const required = form.querySelectorAll('[required]');
+      let ok = true;
+      required.forEach((f) => {
+        if (!f.value.trim()) {
+          ok = false;
+          f.style.borderColor = '#f87171';
+        } else {
+          f.style.borderColor = 'var(--border)';
+        }
+      });
+      const email = document.getElementById('email').value;
+      if (ok && !/^\S+@\S+\.\S+$/.test(email)) {
+        ok = false;
+        document.getElementById('email').style.borderColor = '#f87171';
+      }
+      if (!ok) {
+        formMsg.textContent = 'Проверь поля формы — что-то заполнено не полностью.';
+        formMsg.style.color = '#fca5a5';
+        return;
+      }
+      formMsg.textContent = 'Готово! Заявка отправлена. Мы ответим в течение 30 минут.';
+      formMsg.style.color = '#72efc5';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
