@@ -44,3 +44,10 @@
 ## Полезно
 - Остановка docker-режима: `docker compose down`
 - Полный сброс БД docker-режима: `docker compose down -v`
+
+
+### Если `start-local.bat` не запускается
+Запусти напрямую:
+```bat
+docker compose up --build
+```

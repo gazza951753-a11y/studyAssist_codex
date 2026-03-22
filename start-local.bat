@@ -1,11 +1,15 @@
 @echo off
-chcp 65001 >nul
+setlocal
 
 echo == StudyAssist local quick start ==
+
 where docker >nul 2>nul
 if %errorlevel% neq 0 (
-  echo Docker не найден. Установите Docker Desktop и повторите.
+  echo Docker CLI not found. Install Docker Desktop and restart terminal.
+  pause
   exit /b 1
 )
 
 docker compose up --build
+
+endlocal
