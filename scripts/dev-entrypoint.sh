@@ -11,7 +11,7 @@ if ! grep -q "mysql://studyassist:studyassist@mysql:3306/studyassist" .env; then
   sed -i 's|^NEXTAUTH_URL=.*|NEXTAUTH_URL="http://localhost:3000"|' .env || true
 fi
 
-npm install
+npm install --legacy-peer-deps
 npx prisma generate
 
 # ждём mysql

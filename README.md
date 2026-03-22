@@ -51,3 +51,12 @@
 ```bat
 docker compose up --build
 ```
+
+
+### Если контейнер `app` уходит в Restarting (ERESOLVE)
+В этой версии уже включён `npm install --legacy-peer-deps` в Docker-старт.
+После обновления файлов перезапусти:
+```bat
+docker compose down -v
+docker compose up --build
+```

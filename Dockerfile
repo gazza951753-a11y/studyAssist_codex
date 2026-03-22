@@ -3,7 +3,7 @@ FROM node:20-bookworm
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm install || true
+RUN npm install --legacy-peer-deps || true
 
 COPY . .
 
