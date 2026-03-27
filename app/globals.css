@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+body { @apply bg-background text-textPrimary antialiased; }
+
+.glass {
+  @apply bg-white/5 border border-white/10 backdrop-blur-xl;
+}
+
+.container-main {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
