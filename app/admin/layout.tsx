@@ -14,7 +14,7 @@ function checkBasicAuth(authHeader: string | null, secret: string | undefined) {
 }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions as any);
   const adminExists = (await prisma.user.count({ where: { isAdmin: true } })) > 0;
 
   if ((session?.user as any)?.isAdmin) return <>{children}</>;
