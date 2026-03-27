@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { sendSupportEmail } from '@/lib/email';
