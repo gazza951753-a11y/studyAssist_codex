@@ -3,7 +3,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  serverExternalPackages: ['yookassa'],
+  experimental: {
+    serverComponentsExternalPackages: ['yookassa'],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'ui-avatars.com' },
