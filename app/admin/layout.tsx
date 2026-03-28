@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await getServerSession(authOptions);
   const adminExists = (await prisma.user.count({ where: { isAdmin: true } })) > 0;
 
-  if ((session?.user as any)?.isAdmin) return <>{children}</>;
+  if ((session as any)?.user?.isAdmin) return <>{children}</>;
 
   if (!adminExists) {
     const authHeader = headers().get('authorization');
