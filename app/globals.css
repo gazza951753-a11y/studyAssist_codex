@@ -2,13 +2,155 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
-body { @apply bg-background text-textPrimary antialiased; }
-
-.glass {
-  @apply bg-white/5 border border-white/10 backdrop-blur-xl;
+/* ── CSS custom properties ───────────────────────────────────────── */
+:root {
+  --color-bg:        #FAFAF7;
+  --color-surface:   #FFFFFF;
+  --color-card:      #F5F0E8;
+  --color-accent:    #E07A2F;
+  --color-accent-h:  #C96820;
+  --color-text:      #1C1C1E;
+  --color-muted:     #6B7280;
+  --color-border:    #E8E4DC;
+  --radius-card:     16px;
+  --radius-btn:      10px;
+  --shadow-card:     0 2px 12px rgba(28,28,30,0.06);
+  --shadow-card-h:   0 8px 32px rgba(28,28,30,0.10);
+  --shadow-orange:   0 4px 20px rgba(224,122,47,0.25);
 }
 
+/* ── Base reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ── Layout helpers ──────────────────────────────────────────────── */
 .container-main {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
+
+/* ── Card surface ────────────────────────────────────────────────── */
+.card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-h);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  padding: 0.75rem 1.5rem;
+  box-shadow: var(--shadow-orange);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: var(--color-accent-h);
+  box-shadow: 0 6px 24px rgba(224,122,47,0.35);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--color-text);
+  font-weight: 500;
+  border-radius: var(--radius-btn);
+  padding: 0.75rem 1.5rem;
+  border: 1.5px solid var(--color-border);
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: rgba(224,122,47,0.04);
+}
+
+/* ── Form inputs ─────────────────────────────────────────────────── */
+.input-field {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.input-field::placeholder { color: var(--color-muted); }
+.input-field:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(224,122,47,0.12);
+}
+
+/* ── Section spacing ─────────────────────────────────────────────── */
+.section-pad { @apply py-16 md:py-24; }
+
+/* ── Section heading ─────────────────────────────────────────────── */
+.section-tag {
+  display: inline-block;
+  background-color: rgba(224,122,47,0.10);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  padding: 0.3rem 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Accordion animation ─────────────────────────────────────────── */
+@keyframes slideDown {
+  from { height: 0; opacity: 0; }
+  to   { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes slideUp {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to   { height: 0; opacity: 0; }
+}
+[data-state='open'][data-radix-accordion-content] {
+  animation: slideDown 0.22s ease forwards;
+  overflow: hidden;
+}
+[data-state='closed'][data-radix-accordion-content] {
+  animation: slideUp 0.18s ease forwards;
+  overflow: hidden;
+}
+
+/* ── Star rating ─────────────────────────────────────────────────── */
+.star-btn { background: none; border: none; cursor: pointer; padding: 0; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #c9c4bc; }

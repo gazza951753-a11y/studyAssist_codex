@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  darkMode: ['class'],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
@@ -9,17 +8,23 @@ const config: Config = {
         sans: ['Inter', 'sans-serif']
       },
       colors: {
-        background: '#0F0F1A',
-        surface: '#1A1A2E',
-        textPrimary: '#F1F5F9',
-        textSecondary: '#94A3B8',
-        accent: '#F59E0B'
-      },
-      backgroundImage: {
-        'brand-gradient': 'linear-gradient(135deg, #6C3EF4 0%, #3B82F6 100%)'
+        background: '#FAFAF7',
+        surface: '#FFFFFF',
+        cardBg: '#F5F0E8',
+        textPrimary: '#1C1C1E',
+        textSecondary: '#6B7280',
+        border: '#E8E4DC',
+        accent: '#E07A2F',
+        accentHover: '#C96820'
       },
       boxShadow: {
-        glow: '0 0 20px rgba(108, 62, 244, 0.5)'
+        card: '0 2px 12px rgba(28, 28, 30, 0.06)',
+        cardHover: '0 8px 32px rgba(28, 28, 30, 0.10)',
+        orange: '0 4px 20px rgba(224, 122, 47, 0.25)'
+      },
+      borderRadius: {
+        card: '16px',
+        btn: '10px'
       }
     }
   },
