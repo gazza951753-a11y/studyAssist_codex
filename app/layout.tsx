@@ -3,7 +3,11 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin', 'cyrillic'], display: 'swap', variable: '--font-inter' });
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://studyassist.ru'),
@@ -25,7 +29,10 @@ export const metadata: Metadata = {
     'подготовка к экзаменам',
     'помощь с учёбой',
     'написание курсовой',
-    'написание диплома'
+    'написание диплома',
+    'учебная помощь онлайн',
+    'разбор задач',
+    'помощь с рефератом'
   ],
   authors: [{ name: 'StudyAssist', url: 'https://studyassist.ru' }],
   creator: 'StudyAssist',
@@ -33,7 +40,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large', 'max-video-preview': -1 }
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1
+    }
   },
   alternates: { canonical: 'https://studyassist.ru' },
   openGraph: {
@@ -44,7 +57,14 @@ export const metadata: Metadata = {
     title: 'StudyAssist — Помощь студентам с учёбой онлайн',
     description:
       'Курсовые, дипломные, рефераты, лабораторные работы и онлайн-консультации. Помогаем студентам разобраться в любой учебной теме.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'StudyAssist — помощь студентам' }]
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'StudyAssist — помощь студентам'
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
@@ -68,7 +88,8 @@ const jsonLd = {
       logo: 'https://studyassist.ru/logo.png',
       email: 'support@studyassist.ru',
       telephone: '+7-953-924-68-17',
-      description: 'Профессиональная помощь студентам: курсовые, дипломные, рефераты, лабораторные работы, онлайн-консультации.',
+      description:
+        'Профессиональная помощь студентам: курсовые, дипломные, рефераты, лабораторные работы, онлайн-консультации.',
       priceRange: '₽₽',
       areaServed: { '@type': 'Country', name: 'Россия' },
       sameAs: ['https://vk.ru/supp0rt_studyassist'],
@@ -81,7 +102,15 @@ const jsonLd = {
       },
       openingHoursSpecification: {
         '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        dayOfWeek: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ],
         opens: '00:00',
         closes: '23:59'
       }
@@ -103,22 +132,34 @@ const jsonLd = {
         {
           '@type': 'Question',
           name: 'Как быстро выполняются работы?',
-          acceptedAnswer: { '@type': 'Answer', text: 'Сроки зависят от объёма и сложности: рефераты — от 1 дня, курсовые — от 3 дней, дипломные — от 7 дней.' }
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Сроки зависят от объёма и сложности: рефераты — от 1 дня, курсовые — от 3 дней, дипломные — от 7 дней.'
+          }
         },
         {
           '@type': 'Question',
           name: 'Гарантируете ли вы уникальность?',
-          acceptedAnswer: { '@type': 'Answer', text: 'Да, гарантируем уникальность не менее 80% по системе Антиплагиат.' }
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Да, гарантируем уникальность не менее 80% по системе Антиплагиат.'
+          }
         },
         {
           '@type': 'Question',
           name: 'Конфиденциально ли это?',
-          acceptedAnswer: { '@type': 'Answer', text: 'Да, все данные защищены. Мы не передаём персональную информацию третьим лицам.' }
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Да, все данные защищены. Мы не передаём персональную информацию третьим лицам.'
+          }
         },
         {
           '@type': 'Question',
           name: 'Когда нужно платить?',
-          acceptedAnswer: { '@type': 'Answer', text: 'Оплата производится после согласования всех условий и стоимости работы.' }
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Оплата производится после согласования всех условий и стоимости работы.'
+          }
         }
       ]
     }
@@ -137,7 +178,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.className} bg-background text-textPrimary antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         {children}
 
         {metrikaId && (
